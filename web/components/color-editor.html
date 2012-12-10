@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<body>
+	    <element name="color-editor" constructor="ColorViewModel" extends="div">
+	        <template>
+	        	<ul>
+		            <li><input type="text" bind-value="red" /></li>
+		            <li><input type="text" bind-value="green" /></li>
+		            <li><input type="text" bind-value="blue" /></li>
+		        </ul>
+	        </template>
+	        <script type="application/dart">
+	        import 'package:web_ui/web_ui.dart';
+	        import 'package:dart_web_ui_sample/src/Color.dart';
+
+	        class ColorViewModel extends WebComponent {
+	            ColorViewModel() {
+	            }
+
+	            void created() {
+
+	            }
+
+	            String get red => "${model.red}";
+	            String set red(String r) => model.red = int.parse(r);
+
+	            String get green => "${model.green}";
+	            String set green(String g) => model.green = int.parse(g);
+
+	            String get blue => "${model.blue}";
+	            String set blue(String b) => model.blue = int.parse(b);
+
+
+	            void inserted() {
+	            	print("r: ${model.red} g: ${model.green} b: ${model.blue}");
+	            }
+
+	            Color model;
+	        }
+	       </script>
+	    </element>
+	</body>
+</html>

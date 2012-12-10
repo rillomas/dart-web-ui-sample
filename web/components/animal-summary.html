@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="components" href="color-editor.html">
+	</head>
+	<body>
+	    <element name="animal-summary" constructor="AnimalSummaryViewModel" extends="div">
+	        <template>
+	            <div>{{header}}</div>
+	            <color-editor model="{{model.color}}"></color-editor>
+	            <canvas id="summary" width="300" height="200"></canvas>
+	        </template>
+	        <script type="application/dart">
+	        import 'package:web_ui/web_ui.dart';
+	        import 'package:dart_web_ui_sample/src/AnimalSummary.dart';
+
+	        class AnimalSummaryViewModel extends WebComponent {
+
+	            AnimalSummaryViewModel() {
+	            }
+
+	            String get header => "${model.name}:${model.count}";
+
+	            void increment(e) {
+	                model.count++;
+	            }
+
+	            void created() {
+	               print("created.");
+	            }
+
+	            void inserted() {
+	                _initializeCanvas("#summary");
+	                print("inserted.");
+	            }
+
+	            void _initializeCanvas(String id) {
+	                // initialize child canvas
+	                var c = query(id);
+	                var ctx = c.getContext('2d');
+	                ctx.fillStyle = model.color.cssString;
+	                ctx.fillRect(0,0,300,200);
+	            }
+
+	            AnimalSummary model;
+	        }
+	        </script>
+	    </element>
+	</body>
+</html>

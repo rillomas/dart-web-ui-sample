@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dart Web UI Sample</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css">
+        <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+        <link rel="components" href="components/animal-summary.html">
+        <script type="text/javascript" src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script> 
+    </head>
+    <body>
+    <div id="navigationArea" class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="#">Dart Web UI Sample</a>
+            </div>
+        </div>
+    </div>
+    <div id="animalListArea">
+        <ul>
+            <template iterate='a in animalList'>
+                <animal-summary model="{{a}}" ></animal-summary>
+            </template>
+        </ul>
+    </div>
+    <script type="application/dart">
+    import 'package:dart_web_ui_sample/src/AnimalSummary.dart';
+    import 'package:dart_web_ui_sample/src/Color.dart';
+
+    List<AnimalSummary> animalList = <AnimalSummary>[
+        new AnimalSummary("aardvark",0, new Color(140,70,20)),
+        new AnimalSummary("giraffe",1, new Color(255,255,0))
+        ];
+  
+    void main() {}
+    </script>  
+    </body>
+</html>
