@@ -1,42 +1,62 @@
 <!doctype html>
 <html>
 	<body>
-	    <element name="color-editor" constructor="ColorViewModel" extends="div">
-	        <template>
-	        	<ul>
-		            <li>Red:<input type="text" bind-value="red" /></li>
-		            <li>Green:<input type="text" bind-value="green" /></li>
-		            <li>Blue:<input type="text" bind-value="blue" /></li>
-		        </ul>
-	        </template>
-	        <script type="application/dart">
-	        import 'package:web_ui/web_ui.dart';
-	        import 'package:dart_web_ui_sample/src/Color.dart';
+		<element name="color-editor" constructor="ColorViewModel" extends="div">
+			<template>
+				<ul>
+					<li>R:<input type="range" bind-value="red" min="0" max="255" ><input type="text" readonly bind-value="red"></li>
+					<li>G:<input type="range" bind-value="green" min="0" max="255" ><input type="text" readonly bind-value="green"></li>
+					<li>B:<input type="range" bind-value="blue" min="0" max="255" ><input type="text" readonly bind-value="blue"></li>
+				</ul>
+			</template>
+			<script type="application/dart">
+			import 'dart:html';
+			import 'dart:async';
+			import 'package:web_ui/web_ui.dart';
+			import 'package:dart_web_ui_sample/src/Color.dart';
 
-	        class ColorViewModel extends WebComponent {
-	            ColorViewModel() {
-	            }
+			class ColorViewModel extends WebComponent {
+				ColorViewModel() {
+				}
 
-	            String get red => "${model.red}";
-	            String set red(String r) => model.red = int.parse(r);
+				static const EventStreamProvider<CustomEvent> colorChangedEvent = 
+      				const EventStreamProvider<CustomEvent>('colorChanged');
 
-	            String get green => "${model.green}";
-	            String set green(String g) => model.green = int.parse(g);
+				Stream<CustomEvent> get onColorChanged => colorChangedEvent.forTarget(this);
 
-	            String get blue => "${model.blue}";
-	            String set blue(String b) => model.blue = int.parse(b);
+				String get red => "${model.red}";
+				set red(String r) {
+					model.red = int.parse(r);
+					_notifyColorChange(model);
+				}
 
-	            void created() {
+				String get green => "${model.green}";
+				set green(String g) {
+					model.green = int.parse(g);
+					_notifyColorChange(model);
+				}
 
-	            }
+				String get blue => "${model.blue}";
+				set blue(String b) {
+					model.blue = int.parse(b);
+					_notifyColorChange(model);
+				}
 
-	            void inserted() {
-	            	print("r: ${model.red} g: ${model.green} b: ${model.blue}");
-	            }
+				void created() {
+				}
 
-	            Color model;
-	        }
-	       </script>
-	    </element>
+				void inserted() {
+					print("r: ${model.red} g: ${model.green} b: ${model.blue}");
+				}
+
+				void _notifyColorChange(Color newColor) {
+					CustomEvent ev = new CustomEvent('colorChanged', canBubble: true, cancelable: true, detail: newColor);
+					dispatchEvent(ev);
+				}
+
+				Color model;
+			}
+			</script>
+		</element>
 	</body>
 </html>

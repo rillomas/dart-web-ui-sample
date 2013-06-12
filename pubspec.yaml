@@ -1,4 +1,4 @@
 name: dart_web_ui_sample
 dependencies:
-  web_ui: any 
-
+  browser: any
+  web_ui: any
