@@ -6,5 +6,6 @@ class Color {
     int green;
     int blue;
     String get cssString => "rgb(${red},${green},${blue})";
+    Map toJson() => {"r": red, "g": green, "b": blue };
 }
 

@@ -12,6 +12,7 @@
 			<script type="application/dart">
 			import 'dart:html';
 			import 'dart:async';
+			import 'dart:json' as json;
 			import 'package:web_ui/web_ui.dart';
 			import 'package:dart_web_ui_sample/src/Color.dart';
 
@@ -26,19 +27,31 @@
 
 				String get red => "${model.red}";
 				set red(String r) {
-					model.red = int.parse(r);
+					int nr = int.parse(r);
+					if (model.red == nr) {
+						return;
+					}
+					model.red = nr;
 					_notifyColorChange(model);
 				}
 
 				String get green => "${model.green}";
 				set green(String g) {
-					model.green = int.parse(g);
+					int ng = int.parse(g);
+					if (model.green == ng) {
+						return;
+					}
+					model.green = ng; 
 					_notifyColorChange(model);
 				}
 
 				String get blue => "${model.blue}";
 				set blue(String b) {
-					model.blue = int.parse(b);
+					int nb = int.parse(b);
+					if (model.blue == nb) {
+						return;
+					}
+					model.blue = nb;
 					_notifyColorChange(model);
 				}
 
@@ -46,11 +59,11 @@
 				}
 
 				void inserted() {
-					print("r: ${model.red} g: ${model.green} b: ${model.blue}");
 				}
 
 				void _notifyColorChange(Color newColor) {
-					CustomEvent ev = new CustomEvent('colorChanged', canBubble: true, cancelable: true, detail: newColor);
+					var str = json.stringify(newColor);
+					CustomEvent ev = new CustomEvent('colorChanged', canBubble: true, cancelable: true, detail: str);
 					dispatchEvent(ev);
 				}
 

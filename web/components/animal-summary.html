@@ -11,6 +11,7 @@
 				<canvas id="summary" width="300" height="200"></canvas>
 			</template>
 			<script type="application/dart">
+			import 'dart:json' as json;
 			import 'package:web_ui/web_ui.dart';
 			import 'package:dart_web_ui_sample/src/AnimalSummary.dart';
 			import 'package:dart_web_ui_sample/src/Color.dart';
@@ -27,22 +28,22 @@
 				}
 
 				void created() {
-				   print("created.");
 				}
 
 				void inserted() {
 					_initializeCanvas(model.color);
-					var p = query("#pallet");
-					p.onColorChanged.listen((event) {
-						Color c = event.detail;
-						_initializeCanvas(c);
 
+					var p = query("#pallet");
+					p.xtag.onColorChanged.listen((event) {
+						// sync canvas color with the editor color
+						String str = event.detail;
+						var obj = json.parse(str);
+						Color c = new Color(obj["r"], obj["g"], obj["b"]);
+						_initializeCanvas(c);
 					});
-					print("inserted.");
 				}
 
 				void _initializeCanvas(Color color) {
-					// initialize child canvas
 					var c = query("#summary");
 					var ctx = c.getContext('2d');
 					ctx.fillStyle = color.cssString;
